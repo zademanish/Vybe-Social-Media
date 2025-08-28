@@ -126,12 +126,12 @@ const LoopCard = ({ loop }) => {
 
     useEffect(()=>{
       socket?.on("likedLoop",(updatedData)=>{
-         const updatedLoops = loopData.map(p=>p._id ==updatedData.loopId ? {...p, likes:updatedData.likes} : p )
+         const updatedLoops = loopData?.map(p=>p._id ==updatedData?.loopId ? {...p, likes:updatedData?.likes} : p )
          dispatch(setLoopData(updatedLoops))
       })
   
       socket?.on("commentedLoop",(updatedData)=>{
-         const updatedLoops = loopData.map(p=>p._id ==updatedData.loopId ? {...p, comments:updatedData.comments} : p )
+         const updatedLoops = loopData?.map(p=>p._id ==updatedData?.loopId ? {...p, comments:updatedData?.comments} : p )
          dispatch(setLoopData(updatedLoops))
       })
   
@@ -160,14 +160,14 @@ const LoopCard = ({ loop }) => {
         </h1>
 
         <div className="w-full h-[380px] overflow-y-auto flex flex-col gap-[20px]">
-          {loop.comments.length === 0 && (
+          {loop?.comments?.length === 0 && (
             <div className="text-center text-white text-[20px] font-semibold mt-[50px]">
               No comments Yet
             </div>
           )}
-          {loop.comments.map((com, index) => (
+          {loop?.comments?.map((com, index) => (
             <div
-              key={com._id || index}
+              key={com?._id || index}
               className="w-full flex flex-col border-b-[1px] border-white justify-center pb-[8px]  mt-[10px] relative"
             >
               <div className="flex justify-start items-start gap-[10px] md:gap-[20px] ">
@@ -182,7 +182,7 @@ const LoopCard = ({ loop }) => {
                   {com.author.userName}
                 </div>
               </div>
-              <div className="text-white pl-[60px] absolute top-5">{com.message}</div>
+              <div className="text-white pl-[60px] absolute top-5">{com?.message}</div>
             </div>
           ))}
         </div>
@@ -259,34 +259,34 @@ const LoopCard = ({ loop }) => {
             onClick={() => navigate(`/profile/${loop?.author?.userName}`)}
           >
             <img
-              src={loop?.author.profileImage || dp}
+              src={loop?.author?.profileImage || dp}
               alt="Profile"
               className="w-full h-full object-cover"
             />
           </div>
 
           <div className="w-[100px] font-semibold truncate text-white">
-            {loop.author.userName}
+            {loop?.author?.userName}
           </div>
           <FollowButton
-            targetUserId={loop.author?._id}
+            targetUserId={loop?.author?._id}
             tailwind="px-[10px] py-[5px] text-white border-2 text-[14px] rounded-2xl border-white cursor-pointer"
           />
         </div>
 
-        <div className="text-white px-[10px]">{loop.caption}</div>
+        <div className="text-white px-[10px]">{loop?.caption}</div>
 
         {/* like & comment buttons */}
         <div className="absolute right-0 flex flex-col gap-[20px] text-white bottom-[150px] justify-center px-[10px] ">
           <div className="flex flex-col items-center cursor-pointer">
             <div onClick={handleLike}>
-              {loop.likes.includes(userData._id) ? (
+              {loop?.likes?.includes(userData?._id) ? (
                 <GoHeartFill className="w-[25px] h-[25px] text-red-600" />
               ) : (
                 <GoHeart className="w-[25px] h-[25px]" />
               )}
             </div>
-            <div>{loop.likes.length}</div>
+            <div>{loop?.likes?.length}</div>
           </div>
 
           <div
@@ -294,7 +294,7 @@ const LoopCard = ({ loop }) => {
             onClick={() => setShowComment(true)}
           >
             <MdOutlineComment className="w-[25px] h-[25px]" />
-            <div>{loop.comments.length}</div>
+            <div>{loop?.comments?.length}</div>
           </div>
         </div>
       </div>
