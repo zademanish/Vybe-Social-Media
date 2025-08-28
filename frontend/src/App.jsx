@@ -5,6 +5,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 
 // Frequently used pages (eagerly loaded)
+import SignUp from "./pages/SignUp"
+import SignIn from "./pages/SignIn"
+import ForgotPassword from "./pages/ForgotPassword"
+import Profile from "./pages/Profile"
+import EditProfile from "./pages/EditProfile"
+import Upload from "./pages/Upload"
+import Loops from "./pages/Loops"
+import Story from "./pages/Story"
+import Search from "./pages/Search"
+import Notification from "./pages/Notification"
+
 import Messages from "./pages/Messages";
 import MessageArea from "./pages/MessageArea";
 import ProtectedRoute from "./middlewares/ProtectedRoute";
@@ -20,18 +31,8 @@ import { setPostData } from "./redux/slices/postSlice";
 import { addNotification } from "./redux/slices/userSlice";
 import { addMessage } from "./redux/slices/messageSlice";
 import { setOnlineUsers, setSocket } from "./redux/slices/socketSlice";
+import NotFound from "./pages/NotFound";
 
-// Lazy loaded pages
-const SignUp = lazy(() => import("./pages/SignUp"));
-const SignIn = lazy(() => import("./pages/SignIn"));
-const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
-const Profile = lazy(() => import("./pages/Profile"));
-const EditProfile = lazy(() => import("./pages/EditProfile"));
-const Upload = lazy(() => import("./pages/Upload"));
-const Loops = lazy(() => import("./pages/Loops"));
-const Story = lazy(() => import("./pages/Story"));
-const Search = lazy(() => import("./pages/Search"));
-const Notification = lazy(() => import("./pages/Notification"));
 const Home = lazy(() => import("./pages/Home")); // Home in suspense only
 
 const App = () => {
@@ -103,6 +104,10 @@ const App = () => {
       <Route
         path="/forgot-password"
         element={!userData ? <ForgotPassword /> : <Navigate to="/" />}
+      />
+       <Route
+        path="*"
+        element={<NotFound/>}
       />
 
       {/* Protected routes */}
