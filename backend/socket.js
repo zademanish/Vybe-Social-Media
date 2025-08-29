@@ -1,17 +1,30 @@
 import http from "http"
 import express from "express"
 import { Server } from "socket.io"
+import cors from "cors"
 
-const app =express()
+const app = express()
 
 const server = http.createServer(app)
 
-const io = new Server(server,{
-    cors:{
-        origin:"https://vybe-frontend-x5it.onrender.com",
-        methods:["GET","POST"]
-    }
-})
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://vybe-frontend-x5it.onrender.com"
+];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
+
+const io = new Server(server, {
+  cors: {
+    origin: allowedOrigins,
+    methods: ["GET", "POST"],
+    credentials: true
+  }
+});
+
 
 const userSocketMap = {}
 

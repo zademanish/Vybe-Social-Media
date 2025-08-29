@@ -16,10 +16,15 @@ dotenv.config()
 
 
 const port =process.env.PORT || 5000
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://vybe-frontend-x5it.onrender.com"
+];
+
 app.use(cors({
-    origin:"https://vybe-frontend-x5it.onrender.com",
-   credentials:true
-}))
+  origin: allowedOrigins,
+  credentials: true
+}));
 
 app.use(express.json());
 app.use(cookieParser())
