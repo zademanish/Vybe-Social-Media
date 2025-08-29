@@ -69,7 +69,7 @@ const StoryDp = ({ ProfileImage, userName, story }) => {
           />
         </div>
           {!story && userName === "Your Story" && (
-            <div className="absolute top-14 left-16 bg-white rounded-full p-[2px] shadow-md">
+            <div className="absolute top-30 left-17 sm:top-30 sm:left-17 md:top-30 md:left-17 lg:top-15 lg:left-17 bg-white rounded-full p-[2px] shadow-md">
               <FiPlusCircle className="text-black w-5 h-5" />
             </div>
           )}

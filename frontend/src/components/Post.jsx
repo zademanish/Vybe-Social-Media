@@ -98,96 +98,96 @@ const Post = ({ post }) => {
   }, [showComment, post.comments.length]);
 
   return (
-    <div className="w-full flex flex-col gap-3 text-white pb-6  shadow-white/20 shadow-md mx-auto overflow-hidden transition">
+    <div className="w-full h-full mx-auto flex flex-col pb-2 gap-4 text-white bg-gradient-to-br from-gray-900 via-purple-400 to-gray-900  rounded-2xl shadow-md shadow-purple-500/50 transition-all duration-300 hover:shadow-purple-500/70">
       {/* Media */}
-      <div className="relative w-full flex justify-center">
+      <div className="relative w-full  flex justify-center overflow-hidden">
         {post.mediaType === "image" && (
           <img
             src={post.media}
             alt="Post"
-            className="w-full object-cover "
+            className="w-full object-cover"
           />
         )}
         {post.mediaType === "video" && <VideoPlayer media={post.media} />}
 
         {/* Author Info */}
         <div
-          className="absolute top-3 left-3 flex items-center gap-2 px-2 py-1 rounded-full text-white cursor-pointer"
+          className="absolute top-4 left-4 flex items-center gap-3 px-4 py-2 rounded-full  cursor-pointer transition-all duration-300 "
           onClick={() => navigate(`/profile/${post.author.userName}`)}
         >
-          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white">
+          <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-purple-400 shadow-md">
             <img
               src={post?.author.profileImage || dp}
               alt="Profile"
               className="w-full h-full object-cover"
             />
           </div>
-          <span className="font-semibold text-sm md:text-base">
+          <span className="font-bold text-sm md:text-lg tracking-wide">
             {post.author.userName}
           </span>
         </div>
 
         {/* Follow Button */}
         {userData._id !== post.author._id && (
-          <div className="absolute top-3 right-3">
+          <div className="absolute top-4 right-4">
             <FollowButton
               targetUserId={post.author._id}
-              tailwind="px-2 py-1 md:px-3 md:py-1   bg-[linear-gradient(270deg,#ff0080,#ff8c00,#40e0d0,#8a2be2,#ff0080)] bg-[length:1000%_1000%] [animation:rainbow_8s_ease_infinite]  hover:shadow-[0_0_20px_#fff,0_0_40px_#fff]  text-white rounded-lg text-sm md:text-base hover:opacity-90 transition"
+              tailwind="px-4 py-2 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white rounded-lg text-sm md:text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
             />
           </div>
         )}
       </div>
 
       {/* Actions */}
-      <div className="flex justify-between items-center px-3 mt-2">
-        <div className="flex items-center gap-4">
+      <div className="flex justify-between items-center px-4 mt-3">
+        <div className="flex items-center gap-6">
           {/* Like */}
           <button
-            className="flex items-center gap-1 cursor-pointer hover:scale-110 transition"
+            className="flex items-center gap-2 cursor-pointer group transition-all duration-300"
             onClick={handleLike}
           >
             {post.likes.includes(userData._id) ? (
-              <GoHeartFill className="text-red-600 w-6 h-6" />
+              <GoHeartFill className="text-pink-500 w-7 h-7 group-hover:scale-125 transition-transform duration-200" />
             ) : (
-              <GoHeart className="w-6 h-6" />
+              <GoHeart className="w-7 h-7 text-gray-300 group-hover:text-pink-400 group-hover:scale-125 transition-all duration-200" />
             )}
-            <span className="text-sm">{post.likes.length}</span>
+            <span className="text-sm font-medium">{post.likes.length}</span>
           </button>
 
           {/* Comment */}
           <button
-            className="flex items-center gap-1 cursor-pointer hover:scale-110 transition"
+            className="flex items-center gap-2 cursor-pointer group transition-all duration-300"
             onClick={() => setShowComment(true)}
           >
-            <MdOutlineComment className="w-6 h-6" />
-            <span className="text-sm">{post.comments.length}</span>
+            <MdOutlineComment className="w-7 h-7 text-gray-300 group-hover:text-blue-400 group-hover:scale-125 transition-all duration-200" />
+            <span className="text-sm font-medium">{post.comments.length}</span>
           </button>
         </div>
 
         {/* Save */}
         <button
-          className="cursor-pointer hover:scale-110 transition"
+          className="cursor-pointer group transition-all duration-300"
           onClick={handleSaved}
         >
           {userData.saved.includes(post._id) ? (
-            <GoBookmarkFill className="w-6 h-6" />
+            <GoBookmarkFill className="w-7 h-7 text-yellow-400 group-hover:scale-125 transition-transform duration-200" />
           ) : (
-            <MdOutlineBookmarkBorder className="w-6 h-6" />
+            <MdOutlineBookmarkBorder className="w-7 h-7 text-gray-300 group-hover:text-yellow-400 group-hover:scale-125 transition-all duration-200" />
           )}
         </button>
       </div>
 
       {/* Caption */}
       {post.caption && (
-        <div className="px-3 text-sm md:text-base">
+        <div className="px-4 text-sm md:text-base">
           <span
-            className="font-semibold cursor-pointer hover:underline"
+            className="font-bold cursor-pointer hover:text-purple-400 transition-colors duration-200"
             onClick={() => navigate(`/profile/${post.author.userName}`)}
           >
             @{post.author.userName}
           </span>{" "}
-          <span className="text-black">
-            # {post.caption}
+          <span className="text-gray-200 font-medium">
+           # {post.caption}
           </span>
         </div>
       )}
@@ -195,47 +195,46 @@ const Post = ({ post }) => {
       {/* Comment Modal */}
       {showComment && (
         <>
-          {/* Full-screen overlay (dims everything, including Nav) */}
+          {/* Full-screen overlay */}
           <div
-            className="fixed inset-0 bg-black/50 z-1000"
+            className="fixed inset-0 bg-black/70 z-50 backdrop-blur-sm"
             onClick={() => setShowComment(false)}
           />
 
-          {/* Bottom sheet content positioned above the Nav */}
-          <div className="fixed left-0 right-0 bottom-0 flex justify-center items-end z-1000">
-            <div className="w-full md:w-[500px] bg-gradient-to-bl from-[#4F5978] via-[#8765A6] to-[#B8BEB8] rounded-t-2xl max-h-[90vh] flex flex-col shadow-lg">
+          {/* Bottom sheet content */}
+          <div className="fixed left-0 right-0 bottom-0 flex justify-center items-end z-200">
+            <div className="w-full lg:w-[40%] bg-gradient-to-br from-gray-800 via-purple-800 to-indigo-800 rounded-t-3xl max-h-[85vh] flex flex-col shadow-2xl shadow-purple-500/50">
               {/* Header */}
-              <div className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
-                <h2 className="text-lg font-semibold text-white">
+              <div className="flex justify-between items-center p-5 border-b border-purple-500/30">
+                <h2 className="text-xl font-bold text-white tracking-wide">
                   Comments
                 </h2>
                 <button
                   onClick={() => setShowComment(false)}
-                  className="text-white text-2xl "
+                  className="text-white text-2xl font-bold hover:text-purple-400 transition-colors duration-200"
                 >
                   ✕
                 </button>
               </div>
 
               {/* Comments List */}
-              <div className="flex-1 overflow-y-auto px-4 py-2 flex flex-col gap-3">
+              <div className="flex-1 overflow-y-auto px-5 py-3 flex flex-col gap-4">
                 {post.comments.map((com, idx) => (
                   <div
                     key={idx}
-                    className="flex items-start gap-2 p-2 rounded-xl "
+                    className="flex items-start gap-3 p-3 rounded-xl bg-black/20 backdrop-blur-sm"
                   >
-                    <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-300">
+                    <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-purple-400">
                       <img
-                        src={com.author.profileImage || dp}
+                        src={com?.author?.profileImage || dp}
                         alt="Profile"
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <div>
-                      <span className="font-semibold text-white">{com.author.userName}</span>
-                      <p className="text-white/70 text-sm">
-                        {com.message}
-                      
+                    <div className="flex-1">
+                      <span className="font-semibold text-white">{com?.author?.userName}</span>
+                      <p className="text-gray-200 text-sm mt-1">
+                        {com?.message}
                       </p>
                     </div>
                   </div>
@@ -244,8 +243,8 @@ const Post = ({ post }) => {
               </div>
 
               {/* Comment Input */}
-              <div className="flex-shrink-0 px-4 py-3 border-t border-gray-200 dark:border-gray-700 flex items-center gap-2">
-                <div className="w-9 h-9 rounded-full overflow-hidden border border-gray-300">
+              <div className="flex-shrink-0 px-5 py-4 border-t border-purple-500/30 flex items-center gap-3 bg-black/20">
+                <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-purple-400">
                   <img
                     src={userData.profileImage || dp}
                     alt="Profile"
@@ -255,7 +254,7 @@ const Post = ({ post }) => {
                 <input
                   type="text"
                   placeholder="Write a comment..."
-                  className="flex-1 px-3 py-2 text-sm rounded-full border border-gray-300 dark:border-gray-600 outline-none text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700"
+                  className="flex-1 px-4 py-2 text-sm rounded-full border border-purple-500/50 bg-gray-900/50 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-200"
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   onKeyDown={(e) => {
@@ -267,9 +266,9 @@ const Post = ({ post }) => {
                 />
                 <button
                   onClick={handleComment}
-                  className="p-2 rounded-full hover:bg-black dark:hover:bg-gray-600 transition"
+                  className="p-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 hover:bg-gradient-to-l hover:shadow-lg transition-all duration-300"
                 >
-                  <IoSendSharp className="w-5 h-5" />
+                  <IoSendSharp className="w-5 h-5 text-white" />
                 </button>
               </div>
             </div>

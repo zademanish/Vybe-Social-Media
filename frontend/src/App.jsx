@@ -5,20 +5,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 
 // Frequently used pages (eagerly loaded)
-import SignUp from "./pages/SignUp"
-import SignIn from "./pages/SignIn"
-import ForgotPassword from "./pages/ForgotPassword"
-import Profile from "./pages/Profile"
-import EditProfile from "./pages/EditProfile"
-import Upload from "./pages/Upload"
-import Loops from "./pages/Loops"
-import Story from "./pages/Story"
-import Search from "./pages/Search"
-import Notification from "./pages/Notification"
+import SignUp from "./pages/SignUp";
+import SignIn from "./pages/SignIn";
+import ForgotPassword from "./pages/ForgotPassword";
+import Profile from "./pages/Profile";
+import EditProfile from "./pages/EditProfile";
+import Upload from "./pages/Upload";
+import Story from "./pages/Story";
+import NotFound from "./pages/NotFound";
 
-import Messages from "./pages/Messages";
-import MessageArea from "./pages/MessageArea";
 import ProtectedRoute from "./middlewares/ProtectedRoute";
+
+// Hooks
 import useCurrentUser from "./Hooks/useCurrentUser";
 import useGetAllLoops from "./Hooks/useGetAllLoops";
 import useGetAllNotification from "./Hooks/useGetAllNotification";
@@ -27,13 +25,20 @@ import useGetAllStories from "./Hooks/useGetAllStories";
 import useGetFollowingList from "./Hooks/useGetFollowingList";
 import useGetPrevChats from "./Hooks/useGetPrevChats";
 import useSuggestedUser from "./Hooks/useSuggestedUser";
+
+// Redux slices
 import { setPostData } from "./redux/slices/postSlice";
 import { addNotification } from "./redux/slices/userSlice";
 import { addMessage } from "./redux/slices/messageSlice";
 import { setOnlineUsers, setSocket } from "./redux/slices/socketSlice";
-import NotFound from "./pages/NotFound";
 
-const Home = lazy(() => import("./pages/Home")); // Home in suspense only
+// Lazy-loaded (in Suspense)
+const Home = lazy(() => import("./pages/Home"));
+const Loops = lazy(() => import("./pages/Loops"));
+const Messages = lazy(() => import("./pages/Messages"));
+const MessageArea = lazy(() => import("./pages/MessageArea"));
+const Search = lazy(() => import("./pages/Search"));
+const Notification = lazy(() => import("./pages/Notification"));
 
 const App = () => {
   useCurrentUser();
@@ -105,10 +110,7 @@ const App = () => {
         path="/forgot-password"
         element={!userData ? <ForgotPassword /> : <Navigate to="/" />}
       />
-       <Route
-        path="*"
-        element={<NotFound/>}
-      />
+      <Route path="*" element={<NotFound />} />
 
       {/* Protected routes */}
       <Route
@@ -157,7 +159,9 @@ const App = () => {
         path="/messages"
         element={
           <ProtectedRoute user={userData}>
-            <Messages />
+            <Suspense fallback={<div className="text-white">Loading Messages...</div>}>
+              <Messages />
+            </Suspense>
           </ProtectedRoute>
         }
       />
@@ -165,7 +169,9 @@ const App = () => {
         path="/messageArea"
         element={
           <ProtectedRoute user={userData}>
-            <MessageArea />
+            <Suspense fallback={<div className="text-white">Loading Message Area...</div>}>
+              <MessageArea />
+            </Suspense>
           </ProtectedRoute>
         }
       />
@@ -173,7 +179,9 @@ const App = () => {
         path="/loops"
         element={
           <ProtectedRoute user={userData}>
-            <Loops />
+            <Suspense fallback={<div className="text-white">Loading Loops...</div>}>
+              <Loops />
+            </Suspense>
           </ProtectedRoute>
         }
       />
@@ -181,7 +189,9 @@ const App = () => {
         path="/search"
         element={
           <ProtectedRoute user={userData}>
-            <Search />
+            <Suspense fallback={<div className="text-white">Loading Search...</div>}>
+              <Search />
+            </Suspense>
           </ProtectedRoute>
         }
       />
@@ -189,7 +199,9 @@ const App = () => {
         path="/notifications"
         element={
           <ProtectedRoute user={userData}>
-            <Notification />
+            <Suspense fallback={<div className="text-white">Loading Notifications...</div>}>
+              <Notification />
+            </Suspense>
           </ProtectedRoute>
         }
       />

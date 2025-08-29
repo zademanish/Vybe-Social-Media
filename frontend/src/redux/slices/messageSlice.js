@@ -15,8 +15,8 @@ const messageSlice = createSlice({
       state.messages = action.payload;
     },
     addMessage: (state, action) => {
-      if (!state.messages.find(m => m._id === action.payload._id)) {
-        state.messages.push(action.payload);
+      if (!state.messages.find(m => m?._id === action?.payload?._id)) {
+        state?.messages?.push(action?.payload);
       }
     },
     setPrevChatUsers: (state, action) => {

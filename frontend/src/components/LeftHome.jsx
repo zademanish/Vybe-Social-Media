@@ -26,7 +26,7 @@ const LeftHome = () => {
   };
 
   return (
-    <div className={`hidden lg:flex flex-col w-full lg:w-[30%] h-screen  text-black border-r border-gray-800 transition-all duration-300 ${showNotification ? "overflow-hidden" : "overflow-auto"}`}>
+    <div className={`hidden lg:flex flex-col w-full lg:w-[30%] h-screen transition-all duration-300 ${showNotification ? "overflow-hidden" : "overflow-auto"}`}>
       
       {/* Logo & Notification Icon */}
       <div className="flex items-center justify-between p-5 ">
@@ -58,7 +58,7 @@ const LeftHome = () => {
             </div>
             <button
               onClick={handleLogOut}
-              className="text-white border border px-3  py-2  rounded-lg cursor-pointer font-semibold text-sm hover:underline transition duration-200"
+              className="text-white border px-3  py-2  rounded-lg cursor-pointer font-semibold text-sm hover:underline transition duration-200"
             >
               Log Out
             </button>
@@ -68,7 +68,7 @@ const LeftHome = () => {
           <div className="p-5 flex flex-col gap-4">
             <h2 className="text-white font-semibold text-lg">Suggested Users</h2>
             <div className="flex flex-col gap-3 cursor-pointer">
-              {suggestedUsers?.slice(0, 3).map((user, index) => (
+              {suggestedUsers?.map((user, index) => (
                 <OtherUser key={index} user={user} />
               ))}
             </div>

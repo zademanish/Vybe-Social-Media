@@ -57,7 +57,7 @@ const VideoPlayer = ({ media }) => {
         loop
         muted={mute}
         onClick={handleClick}
-        className="w-full h-full object-cover"
+        className="w-full md:max-h-[60%] object-cover"
       />
       <div
         className="absolute bottom-2 right-2 cursor-pointer"

@@ -25,13 +25,13 @@ export const suggestedUsers =  async (req,res)=>{
         return res.status(200).json(user)
     } catch (error) {
                 return res.status(500).json({message:"Suggested User", error})
-
     }
 }
 
 export const editProfile = async (req,res)=>{
     try {
         const {name,userName,bio,profession,gender} = req.body;
+        
         const user =await User.findById(req.userId).select("-password")
 
         if(!user){
@@ -53,7 +53,7 @@ export const editProfile = async (req,res)=>{
         }
         user.bio = bio
         user.profession = profession
-        user.gender = gender
+        user.gender = gender.toLowerCase()
 
         await user.save()
 

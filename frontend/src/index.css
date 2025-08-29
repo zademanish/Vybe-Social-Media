@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 
 @import "tailwindcss";
 
@@ -40,9 +40,7 @@
   -webkit-animation: heartPop 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-:root{
-     font-family: "Inter", sans-serif;
-}
+
 
 /* Smooth slide-up animation */
 @keyframes slideUp {

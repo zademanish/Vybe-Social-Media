@@ -8,7 +8,7 @@ import axios from 'axios'
 
 const Notification = () => {
     const navigate = useNavigate()
-    const {notificationData} = useSelector(state=>state.user)
+    const {notificationData} = useSelector(state=>state?.user)
     const dispatch = useDispatch()
 
     const ids= notificationData.map((n)=>n._id)

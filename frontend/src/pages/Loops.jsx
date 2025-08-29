@@ -3,6 +3,7 @@ import { MdOutlineKeyboardBackspace } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 import LoopCard from '../components/LoopCard'
 import { useSelector } from 'react-redux'
+import ErrorBoundary from '../components/ErrorBoundary'
 
 const Loops = () => {
   const navigate = useNavigate()
@@ -17,12 +18,14 @@ const Loops = () => {
                 <h1 className="text-white text-[20px] font-semibold">Loops</h1>
               </div>
               <div className='h-[100vh] overflow-y-scroll snap-y snap-mandatory scrollbar-hide'>
+                <ErrorBoundary>
             {loopData?.map((loop,index)=>(
               <div key={index} className='h-screen snap-start'>
 
                 <LoopCard loop={loop} />
               </div>
             ))}
+                </ErrorBoundary>
               </div>
     </div>
   )

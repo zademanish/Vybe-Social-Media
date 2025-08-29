@@ -15,9 +15,9 @@ const NotificationCard = ({ noti }) => {
         </div>
         <div className="flex flex-col">
           <h1 className="text-white font-semibold text-sm sm:text-base truncate">
-            {noti.sender.userName}
+            {noti?.sender?.userName}
           </h1>
-          <p className="text-white/60 text-xs sm:text-sm truncate">{noti.message}</p>
+          <p className="text-white/60 text-xs sm:text-sm truncate">{noti?.message}</p>
         </div>
       </div>
 
@@ -33,7 +33,7 @@ const NotificationCard = ({ noti }) => {
           />
         ) : noti?.post?.mediaType === "image" ? (
           <img
-            src={noti.post?.media}
+            src={noti?.post?.media}
             alt="Post"
             className="w-full h-full object-cover"
           />

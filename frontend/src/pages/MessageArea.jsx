@@ -66,7 +66,7 @@ const MessageArea = () => {
           `${import.meta.env.VITE_SERVER_URL}/api/message/getAll/${selectedUser._id}`,
           { withCredentials: true }
         );
-        dispatch(setMessages(res.data));
+       dispatch(setMessages(Array.isArray(res.data) ? res.data : res.data.messages || []));
       } catch (err) {
         console.log(err);
       }
@@ -117,7 +117,7 @@ const MessageArea = () => {
 
       {/* Messages */}
       <div className="w-full h-[90%] pt-[100px] px-[40px] flex flex-col gap-[50px] overflow-auto ">
-        {messages?.map((mess) =>
+        {messages && messages?.map((mess) =>
           mess.sender === userData._id ? (
             <SenderMessage key={mess._id} message={mess} />
           ) : (
