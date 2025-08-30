@@ -9,6 +9,7 @@ import Nav from "../components/Nav";
 import FollowButton from "../components/FollowButton";
 import Post from "../components/Post";
 import { setSelectedUser } from "../redux/slices/messageSlice";
+import ProfilePost from "../components/ProfilePost";
 
 const Profile = () => {
   const { userName } = useParams();
@@ -47,8 +48,8 @@ const Profile = () => {
   }, [userName, dispatch]);
 
   return (
-    <div className="min-h-screen w-full overflow-auto bg-gradient-to-bl from-[#4F5978] via-[#8765A6] to-[#B8BEB8] flex justify-center">
-      <div className="w-full md:w-[40%]  px-3 sm:px-6 md:px-10 lg:px-16">
+    <div className="min-h-screen w-full overflow-auto bg-gradient-to-bl from-[#4F5978] via-[#8765A6] to-[#B8BEB8] grid grid-row-1 gap-4">
+      <div className="w-full  px-3 sm:px-6 md:px-10 lg:px-16">
         {/* Header */}
         <div className="w-full h-[70px] sm:h-[80px] flex justify-between items-center text-white">
           <div onClick={() => navigate("/")}>
@@ -202,26 +203,28 @@ const Profile = () => {
             >
               Saved
             </div>
+            <Nav />
           </div>
         )}
+      </div>
+
 
         {/* Posts Section */}
-        <div className="w-full flex flex-col items-center gap-5 mt-6 pb-20">
-          <Nav />
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 place-content-center pb-[120px] px-4 gap-4">
           {profileData?._id === userData?._id ? (
             <>
               {postType === "posts" &&
                 postData.map(
                   (post, index) =>
                     post.author?._id === profileData?._id && (
-                      <Post post={post} key={index} />
+                      <ProfilePost post={post} key={index} />
                     )
                 )}
               {postType === "saved" &&
                 postData.map(
                   (post, index) =>
                     userData.saved.includes(post._id) && (
-                      <Post post={post} key={index} />
+                      <ProfilePost post={post} key={index} />
                     )
                 )}
             </>
@@ -229,12 +232,11 @@ const Profile = () => {
             postData.map(
               (post, index) =>
                 post.author?._id === profileData?._id && (
-                  <Post post={post} key={index} />
+                  <ProfilePost post={post} key={index} />
                 )
             )
           )}
         </div>
-      </div>
     </div>
   );
 };

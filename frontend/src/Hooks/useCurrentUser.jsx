@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { setUserData, clearUserData } from "../redux/slices/userSlice";
 import { setCurrentUserStory } from "../redux/slices/storySlice";
@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 
 export default function useCurrentUser() {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true); // ✅ missing in your version
 
   useEffect(() => {
     const controller = new AbortController();
@@ -26,9 +27,13 @@ export default function useCurrentUser() {
         if (axios.isCancel(err)) return;
         console.error("Error fetching current user:", err);
         dispatch(clearUserData());
-        // ❌ no navigate here — let ProtectedRoute handle redirects
+      })
+      .finally(() => {
+        setLoading(false); // ✅ ensures flash signin is gone
       });
 
     return () => controller.abort();
   }, [dispatch]);
+
+  return { loading }; // ✅ return loading so App.jsx can wait
 }

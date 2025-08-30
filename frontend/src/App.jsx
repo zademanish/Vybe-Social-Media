@@ -1,4 +1,3 @@
-// App.jsx
 import React, { useEffect, useRef, lazy, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -41,6 +40,7 @@ const Search = lazy(() => import("./pages/Search"));
 const Notification = lazy(() => import("./pages/Notification"));
 
 const App = () => {
+  // ✅ Call hooks unconditionally (always at top-level)
   useCurrentUser();
   useSuggestedUser();
   useGetAllPost();
@@ -55,12 +55,16 @@ const App = () => {
   const dispatch = useDispatch();
   const socketRef = useRef(null);
 
+
+
   useEffect(() => {
     if (!userData || socketRef.current) return;
+
     const socketIo = io(import.meta.env.VITE_SERVER_URL, {
       query: { userId: userData._id },
       transports: ["websocket"],
     });
+
     dispatch(setSocket(socketIo));
     socketRef.current = socketIo;
 

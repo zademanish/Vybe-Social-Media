@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FiVolume2, FiVolumeX } from "react-icons/fi";
 
-const VideoPlayer = ({ media }) => {
+const ProfileVideoPlayer = ({ media }) => {
   const videoRef = useRef(null);
   const [mute, setMute] = useState(true);
   const [playing, setPlaying] = useState(false);
@@ -50,7 +50,7 @@ const VideoPlayer = ({ media }) => {
   }, []);
 
   return (
-    <div className="h-[100vh] w-full relative cursor-pointer max-w-full overflow-hidden">
+    <div className="h-full w-full relative cursor-pointer max-w-full overflow-hidden">
       <video
         ref={videoRef}
         src={media}
@@ -73,4 +73,4 @@ const VideoPlayer = ({ media }) => {
   );
 };
 
-export default VideoPlayer;
+export default ProfileVideoPlayer;

@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const storedUser = JSON.parse(localStorage.getItem("userData"));
+
 const initialState = {
-  userData: null,
+  userData: storedUser || null,
   suggestedUsers: null,
   profileData: null,
   following: [],
@@ -17,8 +19,10 @@ const userSlice = createSlice({
     // Set current user data
     setUserData: (state, action) => {
       if (action.payload && typeof action.payload === "object") {
+        localStorage.setItem("userData", JSON.stringify(action.payload));
         state.userData = action.payload.user || action.payload;
       } else {
+          localStorage.removeItem("userData");
         console.error("Invalid user data:", action.payload);
         state.userData = null;
       }
