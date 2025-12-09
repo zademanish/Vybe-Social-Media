@@ -68,7 +68,7 @@ const LeftHome = () => {
           <div className="p-5 flex flex-col gap-4">
             <h2 className="text-white font-semibold text-lg">Suggested Users</h2>
             <div className="flex flex-col gap-3 cursor-pointer">
-              {suggestedUsers?.map((user, index) => (
+              {suggestedUsers && suggestedUsers?.map((user, index) => (
                 <OtherUser key={index} user={user} />
               ))}
             </div>
