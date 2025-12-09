@@ -1,11 +1,13 @@
 import React from "react";
 import dp from "../assets/dp.webp";
+import { useNavigate } from "react-router-dom";
 
 const NotificationCard = ({ noti }) => {
+  const navigate = useNavigate();
   return (
     <div className="w-full flex justify-between items-center p-3  text-whtie bg-gradient-to-tr from-[#462c3dc2] via-[#222b24de] to-[#421231c2] shadow-md hover:bg-gray-100 transition duration-200">
       {/* Sender Info */}
-      <div className="flex gap-3 items-center">
+      <div className="flex gap-3 items-center" onClick={()=>navigate(`/profile/${noti?.sender?.userName}`)}>
         <div className="w-12 h-12 rounded-full border-2  overflow-hidden cursor-pointer flex-shrink-0">
           <img
             src={noti?.sender?.profileImage || dp}

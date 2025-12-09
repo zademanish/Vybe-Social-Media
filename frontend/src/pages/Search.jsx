@@ -80,6 +80,7 @@ function Search() {
             searchData.map((user) => (
               <div
                 key={user._id}
+                onClick={()=>navigate(`/profile/${user.userName}`)}
                 className="w-[90%] sm:w-[80%] max-w-[700px] h-16 sm:h-20 bg-white rounded-xl flex items-center gap-4 px-4 shadow hover:shadow-lg transition cursor-pointer"
               >
                 <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-gray-200 flex-shrink-0">
