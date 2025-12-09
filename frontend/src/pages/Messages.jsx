@@ -26,7 +26,7 @@ const Messages = () => {
 
       {/* Online Users */}
       <div className="flex gap-4 overflow-x-auto py-2 border-b border-gray-300 dark:border-gray-700">
-        {userData && userData?.following?.map(
+        {userData?.following.map(
           (user) =>
             onlineUsers?.includes(user._id) && (
               <OnlineUser key={user._id} user={user} />
