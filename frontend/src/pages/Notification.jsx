@@ -46,7 +46,7 @@ const Notification = () => {
                     <h1 className="text-white text-[20px] font-semibold">Notifications</h1>
                   </div>
                   <div className='w-full h-[100%] flex flex-col gap-[20px]'> 
-                    {notificationData?.map((noti,index)=>(
+                    {notificationData && notificationData?.map((noti,index)=>(
                         <NotificationCard noti={noti} key={index}/>
                     ))}
                   </div>
