@@ -26,17 +26,17 @@ const Messages = () => {
 
       {/* Online Users */}
       <div className="flex gap-4 overflow-x-auto py-2 border-b border-gray-300 dark:border-gray-700">
-        {userData?.following.map(
+        {userData && userData?.following?.map(
           (user) =>
-            onlineUsers?.includes(user._id) && (
-              <OnlineUser key={user._id} user={user} />
+            onlineUsers?.includes(user?._id) && (
+              <OnlineUser key={user?._id} user={user} />
             )
         )}
       </div>
 
       {/* Previous Chats */}
       <div className="flex flex-col gap-4 overflow-auto h-[calc(100vh-160px)]">
-        {prevChatUsers?.map((user) => (
+        {prevChatUsers && prevChatUsers?.map((user) => (
           <div
             key={user._id}
             onClick={() => {
@@ -54,9 +54,9 @@ const Messages = () => {
             </div>
             <div className="flex flex-col">
               <span className="font-semibold text-gray-100">
-                {user.userName}
+                {user?.userName}
               </span>
-              {onlineUsers?.includes(user._id) && (
+              {onlineUsers && onlineUsers?.includes(user?._id) && (
                 <span className="text-green-600  text-sm">Active now</span>
               )}
             </div>
