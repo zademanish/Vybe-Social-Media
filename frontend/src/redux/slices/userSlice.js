@@ -8,7 +8,7 @@ const initialState = {
   profileData: null,
   following: [],
   searchData: null,
-  notificationData: [],
+  notificationData: [], // Initial state is an empty array
   loading: true, // prevent flash sign-in
 };
 
@@ -16,7 +16,8 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    // Set current user data
+    // ... (setUserData, clearUserData, setSuggestedUsers, setProfileData, etc. remain the same) ...
+
     setUserData: (state, action) => {
       if (action.payload && typeof action.payload === "object") {
         localStorage.setItem("userData", JSON.stringify(action.payload));
@@ -29,57 +30,53 @@ const userSlice = createSlice({
       state.loading = false;
     },
 
-    // Clear user data on logout
     clearUserData: (state) => {
       state.userData = null;
       state.loading = false;
     },
 
-    // Suggested users
     setSuggestedUsers: (state, action) => {
       state.suggestedUsers = action.payload;
     },
-
-    // Set notifications (array or single)
-    setNotificationData: (state, action) => {
-      const newNoti = Array.isArray(action.payload) ? action.payload : [action.payload];
-
-      // Remove duplicates by _id
-      const unique = [...state.notificationData, ...newNoti].filter(
-        (v, i, a) => a.findIndex((t) => t._id === v._id) === i
-      );
-
-      state.notificationData = unique;
-    },
-
-    // Add a single notification (for socket)
-    addNotification: (state, action) => {
-      const exists = state.notificationData.find((n) => n._id === action.payload._id);
-      if (!exists) state.notificationData.push(action.payload);
-    },
-
-    // Profile data
+    
     setProfileData: (state, action) => {
       state.profileData = action.payload;
     },
 
-    // Following list
     setFollowing: (state, action) => {
       state.following = action.payload;
     },
 
-    // Search results
     setSearchData: (state, action) => {
       state.searchData = action.payload;
     },
 
-    // Toggle follow/unfollow
     toggleFollow: (state, action) => {
       const targetUserId = action.payload;
       if (state.following.includes(targetUserId)) {
         state.following = state.following.filter((id) => id !== targetUserId);
       } else {
         state.following.push(targetUserId);
+      }
+    },
+
+
+    // 🎯 CRITICAL FIX HERE: Replace the entire notification list with the new payload
+    setNotificationData: (state, action) => {
+        // Ensure the payload is an array (even if it's an empty one)
+        const payloadArray = Array.isArray(action.payload) ? action.payload : []; 
+        
+        // This action is now solely for replacing the list with the server's definitive data
+        state.notificationData = payloadArray;
+    },
+
+    // Add a single notification (for socket or single push)
+    addNotification: (state, action) => {
+      // Ensure we add the new notification to the front of the array (unshift)
+      const newNoti = action.payload;
+      const exists = state.notificationData.some((n) => n._id === newNoti._id);
+      if (!exists) {
+        state.notificationData.unshift(newNoti);
       }
     },
   },
@@ -93,7 +90,8 @@ export const {
   toggleFollow,
   setFollowing,
   setSearchData,
-  setNotificationData,
+  // Exporting the fixed reducer
+  setNotificationData, 
   addNotification,
 } = userSlice.actions;
 
