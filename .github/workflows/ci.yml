@@ -4,9 +4,9 @@ name: build-and-lint
 
 on:
   push:
-    branches: [main, dev]
+    branches: [main]
   pull-request:
-    branches: [main, dev]
+    branches: [main]
   
 jobs:
   build-and-lint:
