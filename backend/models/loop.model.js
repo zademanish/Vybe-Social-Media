@@ -1,10 +1,10 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const loopSchema = new mongoose.Schema(
   {
     author: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     media: {
@@ -18,14 +18,14 @@ const loopSchema = new mongoose.Schema(
     likes: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref: 'User',
       },
     ],
     comments: [
       {
         author: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
+          ref: 'User',
         },
         message: {
           type: String,
@@ -33,9 +33,9 @@ const loopSchema = new mongoose.Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-const Loop = mongoose.model("Loop", loopSchema);
+const Loop = mongoose.model('Loop', loopSchema);
 
 export default Loop;

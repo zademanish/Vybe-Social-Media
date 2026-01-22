@@ -1,15 +1,15 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const postSchema = new mongoose.Schema(
   {
     author: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     mediaType: {
       type: String,
-      enum: ["image", "video"],
+      enum: ['image', 'video'],
       required: true,
     },
     media: {
@@ -23,14 +23,14 @@ const postSchema = new mongoose.Schema(
     likes: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref: 'User',
       },
     ],
     comments: [
       {
         author: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
+          ref: 'User',
         },
         message: {
           type: String,
@@ -41,9 +41,9 @@ const postSchema = new mongoose.Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-const Post = mongoose.model("Post", postSchema);
+const Post = mongoose.model('Post', postSchema);
 
 export default Post;

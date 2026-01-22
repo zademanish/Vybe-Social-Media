@@ -1,34 +1,37 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const storySchema = new mongoose.Schema({
-    author:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required:true
+const storySchema = new mongoose.Schema(
+  {
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
     },
-    mediaType:{
-        type:String,
-        enum:["image","video"],
-        required:true
+    mediaType: {
+      type: String,
+      enum: ['image', 'video'],
+      required: true,
     },
-     media:{
-        type:String,
-        required:true
+    media: {
+      type: String,
+      required: true,
     },
-    viewers:[
-       {
-        type:mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required:true
-    },
+    viewers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+      },
     ],
-    createdAt:{
-        type:Date,
-        default:Date.now(),
-        expires:86400
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+      expires: 86400,
     },
-},{timestamps:true})
+  },
+  { timestamps: true },
+);
 
-const Story = mongoose.model("Story",storySchema);
+const Story = mongoose.model('Story', storySchema);
 
 export default Story;

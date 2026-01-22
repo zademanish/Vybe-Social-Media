@@ -1,14 +1,20 @@
-FROM node:22-alpine
+# Use lightweight Node.js LTS
+FROM node:20-alpine
 
-    WORKDIR /app
-    
-    COPY package*.json ./
-    
-    RUN npm install
-        
-    COPY . .
+# Set working directory
+WORKDIR /app
 
-    EXPOSE 5000
+# Copy dependency files first (for caching)
+COPY package*.json ./
 
-    CMD [ "npm","start" ]
+# Install only production dependencies
+RUN npm install --production
 
+# Copy backend source code
+COPY . .
+
+# Expose backend port
+EXPOSE 5000
+
+# Start server
+CMD ["node", "index.js"]

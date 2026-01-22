@@ -1,5 +1,5 @@
-import { v2 as cloudinary } from "cloudinary";
-import fs from "fs";
+import { v2 as cloudinary } from 'cloudinary';
+import fs from 'fs';
 
 const uploadOncloudinary = async (file) => {
   try {
@@ -10,7 +10,7 @@ const uploadOncloudinary = async (file) => {
     });
 
     const result = await cloudinary.uploader.upload(file, {
-      resource_type: "auto",
+      resource_type: 'auto',
     });
 
     // ✅ Remove local file safely
@@ -24,10 +24,9 @@ const uploadOncloudinary = async (file) => {
     if (fs.existsSync(file)) {
       fs.unlinkSync(file);
     }
-    console.error("Cloudinary upload error:", error);
+    console.error('Cloudinary upload error:', error);
     throw error;
   }
 };
 
 export default uploadOncloudinary;
-

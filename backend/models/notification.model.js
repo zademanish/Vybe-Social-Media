@@ -1,20 +1,20 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const notificationSchema = new mongoose.Schema(
   {
     sender: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     receiver: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     type: {
       type: String,
-      enum: ["like", "comment", "follow"],
+      enum: ['like', 'comment', 'follow'],
       required: true,
     },
     message: {
@@ -23,20 +23,20 @@ const notificationSchema = new mongoose.Schema(
     },
     post: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Post",
+      ref: 'Post',
     },
     loop: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Loop",
+      ref: 'Loop',
     },
-    isRead:{
-        type:Boolean,
-        default:false
-    }
+    isRead: {
+      type: Boolean,
+      default: false,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-const Notification = mongoose.model("Notification", notificationSchema)
+const Notification = mongoose.model('Notification', notificationSchema);
 
 export default Notification;
