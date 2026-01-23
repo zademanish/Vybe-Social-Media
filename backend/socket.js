@@ -7,7 +7,9 @@ const app = express();
 
 const server = http.createServer(app);
 
-const allowedOrigins = ['http://localhost:5173', 'https://vybe-frontend-x5it.onrender.com'];
+const allowedOrigins = [ 'http://localhost:5173',
+  'http://localhost:3000',
+  'https://vybe-frontend-x5it.onrender.com',];
 
 app.use(
   cors({
