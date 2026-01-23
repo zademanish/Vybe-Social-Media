@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import dp from "../assets/dp.webp";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { MdOutlineKeyboardBackspace } from "react-icons/md";
-import VideoPlayer from "./VideoPlayer";
-import { FaEye } from "react-icons/fa6";
-import { FiEye } from "react-icons/fi";
+import React, { useEffect, useState } from 'react';
+import dp from '../assets/dp.webp';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { MdOutlineKeyboardBackspace } from 'react-icons/md';
+import VideoPlayer from './VideoPlayer';
+import { FaEye } from 'react-icons/fa6';
+import { FiEye } from 'react-icons/fi';
 
 const StoryCard = ({ storyData }) => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const StoryCard = ({ storyData }) => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
-          navigate("/");
+          navigate('/');
           return 100;
         }
         return prev + 1;
@@ -64,16 +64,12 @@ const StoryCard = ({ storyData }) => {
       {!showViewers && (
         <>
           <div className="w-full h-[100%] flex items-center justify-center ">
-            {storyData?.mediaType == "image" && (
+            {storyData?.mediaType == 'image' && (
               <div className="w-[100%] h-full flex items-center justify-center">
-                <img
-                  src={storyData.media}
-                  alt=""
-                  className="w-full h-full object-cover"
-                />
+                <img src={storyData.media} alt="" className="w-full h-full object-cover" />
               </div>
             )}
-            {storyData?.mediaType == "video" && (
+            {storyData?.mediaType == 'video' && (
               <div className="w-[80%] flex items-center justify-center ">
                 <VideoPlayer media={storyData.media} />
               </div>
@@ -81,9 +77,12 @@ const StoryCard = ({ storyData }) => {
           </div>
 
           {storyData?.author?.userName == userData?.userName && (
-            <div className="w-full h-[70px] p-2 flex items-center gap-[10px] left-0 text-white absolute bottom-0 cursor-pointer" onClick={()=>setShowViewers(true)}>
+            <div
+              className="w-full h-[70px] p-2 flex items-center gap-[10px] left-0 text-white absolute bottom-0 cursor-pointer"
+              onClick={() => setShowViewers(true)}
+            >
               <div className="text-white flex items-center gap-[5px]">
-                {" "}
+                {' '}
                 <FaEye />
                 {storyData.viewers.length}
               </div>
@@ -91,7 +90,7 @@ const StoryCard = ({ storyData }) => {
                 {storyData?.viewers?.slice(0, 3).map((viewer, index) => (
                   <div
                     className={`w-[30px] h-[30px] rounded-full border-2 border-white overflow-hidden cursor-pointer ${
-                      index > 0 ? `absolute left-[${index * 10}px]` : ""
+                      index > 0 ? `absolute left-[${index * 10}px]` : ''
                     }`}
                   >
                     <img
@@ -109,17 +108,16 @@ const StoryCard = ({ storyData }) => {
 
       {showViewers && (
         <>
-          <div className="w-full h-[30%] flex items-center justify-center mt-[100px] py-[30px]  overflow-hidden cursor-pointer" onClick={()=>setShowViewers(false)}>
-            {storyData?.mediaType == "image" && (
+          <div
+            className="w-full h-[30%] flex items-center justify-center mt-[100px] py-[30px]  overflow-hidden cursor-pointer"
+            onClick={() => setShowViewers(false)}
+          >
+            {storyData?.mediaType == 'image' && (
               <div className="h-full flex items-center justify-center ">
-                <img
-                  src={storyData.media}
-                  alt=""
-                  className="h-full  object-cover"
-                />
+                <img src={storyData.media} alt="" className="h-full  object-cover" />
               </div>
             )}
-            {storyData?.mediaType == "video" && (
+            {storyData?.mediaType == 'video' && (
               <div className="h-full flex items-center justify-center ">
                 <VideoPlayer media={storyData.media} />
               </div>
@@ -127,35 +125,32 @@ const StoryCard = ({ storyData }) => {
           </div>
           <div className="w-full h-[70%] text-white border-t-2 border-t-gray-300 p-[20px] ">
             <div className=" flex items-center gap-[10px]">
-              <FiEye  className="text-white"/>
-              <span className="text-white">
-                {storyData?.viewers?.length}
-              </span>
-                <span > Viewers</span>
+              <FiEye className="text-white" />
+              <span className="text-white">{storyData?.viewers?.length}</span>
+              <span> Viewers</span>
             </div>
-              <div className="w-full max-h-full flex flex-col gap-[10px] overflow-auto pt-[20px]">
-        {storyData?.viewers.map((viewer, index) => (
-          <div className="w-full flex items-center gap-[20px]">
-            <div
-              className="w-[30px] h-[30px] md:w-[40px] md:h-[40px] rounded-full border  overflow-hidden cursor-pointer"
-              onClick={() => navigate(`/profile/${viewer?.userName}`)}
-            >
-              <img
-                src={viewer?.profileImage || dp}
-                alt="Profile"
-                className="w-full h-full object-cover"
-              />
+            <div className="w-full max-h-full flex flex-col gap-[10px] overflow-auto pt-[20px]">
+              {storyData?.viewers.map((viewer) => (
+                <div className="w-full flex items-center gap-[20px]">
+                  <div
+                    className="w-[30px] h-[30px] md:w-[40px] md:h-[40px] rounded-full border  overflow-hidden cursor-pointer"
+                    onClick={() => navigate(`/profile/${viewer?.userName}`)}
+                  >
+                    <img
+                      src={viewer?.profileImage || dp}
+                      alt="Profile"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="w-[100px] font-semibold truncate text-white">
+                    {viewer?.userName}
+                  </div>
+                </div>
+              ))}
             </div>
-             <div className="w-[100px] font-semibold truncate text-white">
-          {viewer?.userName}
-        </div>
-          </div>
-        ))}
-      </div>
           </div>
         </>
       )}
-    
     </div>
   );
 };

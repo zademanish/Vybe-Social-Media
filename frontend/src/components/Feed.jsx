@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import logo from '../assets/logo2.png';
 import { FaRegHeart } from 'react-icons/fa6';
 import StoryDp from './StoryDp';

@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { FiVolume2, FiVolumeX } from "react-icons/fi";
+import React, { useEffect, useRef, useState } from 'react';
+import { FiVolume2, FiVolumeX } from 'react-icons/fi';
 
 const ProfileVideoPlayer = ({ media }) => {
   const videoRef = useRef(null);
@@ -15,36 +15,37 @@ const ProfileVideoPlayer = ({ media }) => {
       setPlaying(false);
     } else {
       videoRef.current.play().catch((err) => {
-        console.log("Play blocked:", err);
+        console.log('Play blocked:', err);
       });
       setPlaying(true);
     }
   };
 
   useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        const video = videoRef.current;
-        if (!video) return;
-
         if (entry.isIntersecting) {
-          // Play when in viewport
-          video.play().then(() => setPlaying(true)).catch((err) => {
-            console.log("Autoplay blocked:", err);
-          });
+          video
+            .play()
+            .then(() => setPlaying(true))
+            .catch((err) => {
+              console.log('Autoplay blocked:', err);
+            });
         } else {
-          // Pause when out of viewport
           video.pause();
           setPlaying(false);
         }
       },
-      { threshold: 0.6 } // video should be 60% visible
+      { threshold: 0.6 },
     );
 
-    if (videoRef.current) observer.observe(videoRef.current);
+    observer.observe(video);
 
     return () => {
-      if (videoRef.current) observer.unobserve(videoRef.current);
+      observer.unobserve(video);
       observer.disconnect();
     };
   }, []);

@@ -1,35 +1,35 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { setProfileData, setUserData } from "../redux/slices/userSlice";
-import { MdOutlineKeyboardBackspace } from "react-icons/md";
-import dp from "../assets/dp.webp";
-import Nav from "../components/Nav";
-import FollowButton from "../components/FollowButton";
-import Post from "../components/Post";
-import { setSelectedUser } from "../redux/slices/messageSlice";
-import ProfilePost from "../components/ProfilePost";
+import axios from 'axios';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { setProfileData, setUserData } from '../redux/slices/userSlice';
+import { MdOutlineKeyboardBackspace } from 'react-icons/md';
+import dp from '../assets/dp.webp';
+import Nav from '../components/Nav';
+import FollowButton from '../components/FollowButton';
+import Post from '../components/Post';
+import { setSelectedUser } from '../redux/slices/messageSlice';
+import ProfilePost from '../components/ProfilePost';
 
 const Profile = () => {
   const { userName } = useParams();
   const navigate = useNavigate();
-  const [postType, setPostType] = useState("posts");
+  const [postType, setPostType] = useState('posts');
   const dispatch = useDispatch();
   const { profileData, userData } = useSelector((state) => state.user);
   const { postData } = useSelector((state) => state.post);
 
-  const handleProfile = async () => {
+  const handleProfile = useCallback(async () => {
     try {
       const result = await axios.get(
         `${import.meta.env.VITE_SERVER_URL}/api/user/getProfile/${userName}`,
-        { withCredentials: true }
+        { withCredentials: true },
       );
       dispatch(setProfileData(result.data));
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [userName, dispatch]);
 
   const handleLogOut = async () => {
     try {
@@ -37,22 +37,22 @@ const Profile = () => {
         withCredentials: true,
       });
       dispatch(setUserData(null));
-      navigate("/signin");
+      navigate('/signin');
     } catch (error) {
-      console.error("Logout failed:", error);
+      console.error('Logout failed:', error);
     }
   };
 
   useEffect(() => {
     handleProfile();
-  }, [userName, dispatch]);
+  }, [handleProfile]);
 
   return (
     <div className="min-h-screen w-full overflow-auto bg-gradient-to-bl from-[#4F5978] via-[#8765A6] to-[#B8BEB8] grid grid-row-1 gap-4">
       <div className="w-full  px-3 sm:px-6 md:px-10 lg:px-16">
         {/* Header */}
         <div className="w-full h-[70px] sm:h-[80px] flex justify-between items-center text-white">
-          <div onClick={() => navigate("/")}>
+          <div onClick={() => navigate('/')}>
             <MdOutlineKeyboardBackspace className="text-white w-6 h-6 sm:w-[25px] sm:h-[25px] cursor-pointer" />
           </div>
           <div className="font-semibold text-lg sm:text-xl md:text-2xl">
@@ -76,15 +76,11 @@ const Profile = () => {
             />
           </div>
           <div className="text-center sm:text-left">
-            <div className="font-bold text-xl sm:text-2xl text-white">
-              {profileData?.name}
-            </div>
+            <div className="font-bold text-xl sm:text-2xl text-white">{profileData?.name}</div>
             <div className="text-base sm:text-lg text-white font-semibold">
-              {profileData?.profession || "New User"}
+              {profileData?.profession || 'New User'}
             </div>
-            <div className="text-sm sm:text-base text-white mt-1">
-              {profileData?.bio}
-            </div>
+            <div className="text-sm sm:text-base text-white mt-1">{profileData?.bio}</div>
           </div>
         </div>
 
@@ -92,9 +88,7 @@ const Profile = () => {
         <div className="w-full flex justify-center items-center gap-10 md:gap-20 mt-6">
           {/* Posts */}
           <div className="text-center">
-            <div className="text-white text-2xl font-semibold">
-              {profileData?.posts?.length}
-            </div>
+            <div className="text-white text-2xl font-semibold">{profileData?.posts?.length}</div>
             <div className="text-lg text-white">Posts</div>
           </div>
 
@@ -106,7 +100,7 @@ const Profile = () => {
                   <div
                     key={index}
                     className={`w-10 h-10 rounded-full border-2 border-black overflow-hidden cursor-pointer ${
-                      index > 0 ? `-ml-3` : ""
+                      index > 0 ? `-ml-3` : ''
                     }`}
                   >
                     <img
@@ -132,7 +126,7 @@ const Profile = () => {
                   <div
                     key={index}
                     className={`w-10 h-10 rounded-full border-2 border-black overflow-hidden cursor-pointer ${
-                      index > 0 ? `-ml-3` : ""
+                      index > 0 ? `-ml-3` : ''
                     }`}
                   >
                     <img
@@ -156,7 +150,7 @@ const Profile = () => {
           {profileData?._id === userData?._id ? (
             <button
               className="px-4 sm:px-6 py-2 text-white text-base sm:text-lg rounded-md cursor-pointer bg-[linear-gradient(270deg,#ff0080,#ff8c00,#40e0d0,#8a2be2,#ff0080)] bg-[length:1000%_1000%] [animation:rainbow_8s_ease_infinite] hover:shadow-[0_0_20px_#fff,0_0_40px_#fff]"
-              onClick={() => navigate("/editprofile")}
+              onClick={() => navigate('/editprofile')}
             >
               Edit Profile
             </button>
@@ -170,7 +164,7 @@ const Profile = () => {
               <button
                 onClick={() => {
                   dispatch(setSelectedUser(profileData));
-                  navigate("/messageArea");
+                  navigate('/messageArea');
                 }}
                 className="px-4 sm:px-6 py-2 bg-white border cursor-pointer rounded-2xl text-sm sm:text-base"
               >
@@ -185,21 +179,21 @@ const Profile = () => {
           <div className="w-full max-w-[500px] h-14 sm:h-16 mx-auto mt-8 flex justify-around items-center rounded-full bg-transparent">
             <div
               className={`${
-                postType === "posts"
-                  ? "bg-black text-white shadow-lg"
-                  : "hover:bg-white hover:text-black"
+                postType === 'posts'
+                  ? 'bg-black text-white shadow-lg'
+                  : 'hover:bg-white hover:text-black'
               } flex-1 mx-2 h-full flex justify-center items-center text-sm sm:text-lg font-semibold rounded-full cursor-pointer`}
-              onClick={() => setPostType("posts")}
+              onClick={() => setPostType('posts')}
             >
               Posts
             </div>
             <div
               className={`${
-                postType === "saved"
-                  ? "bg-black text-white shadow-lg"
-                  : "hover:bg-white hover:text-black"
+                postType === 'saved'
+                  ? 'bg-black text-white shadow-lg'
+                  : 'hover:bg-white hover:text-black'
               } flex-1 mx-2 h-full flex justify-center items-center text-sm sm:text-lg font-semibold rounded-full cursor-pointer`}
-              onClick={() => setPostType("saved")}
+              onClick={() => setPostType('saved')}
             >
               Saved
             </div>
@@ -208,35 +202,28 @@ const Profile = () => {
         )}
       </div>
 
-
-        {/* Posts Section */}
-        <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 place-content-center pb-[120px] px-4 gap-4">
-          {profileData?._id === userData?._id ? (
-            <>
-              {postType === "posts" &&
-                postData.map(
-                  (post, index) =>
-                    post.author?._id === profileData?._id && (
-                      <ProfilePost post={post} key={index} />
-                    )
-                )}
-              {postType === "saved" &&
-                postData.map(
-                  (post, index) =>
-                    userData.saved.includes(post._id) && (
-                      <ProfilePost post={post} key={index} />
-                    )
-                )}
-            </>
-          ) : (
-            postData.map(
-              (post, index) =>
-                post.author?._id === profileData?._id && (
-                  <ProfilePost post={post} key={index} />
-                )
-            )
-          )}
-        </div>
+      {/* Posts Section */}
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 place-content-center pb-[120px] px-4 gap-4">
+        {profileData?._id === userData?._id ? (
+          <>
+            {postType === 'posts' &&
+              postData.map(
+                (post, index) =>
+                  post.author?._id === profileData?._id && <ProfilePost post={post} key={index} />,
+              )}
+            {postType === 'saved' &&
+              postData.map(
+                (post, index) =>
+                  userData.saved.includes(post._id) && <ProfilePost post={post} key={index} />,
+              )}
+          </>
+        ) : (
+          postData.map(
+            (post, index) =>
+              post.author?._id === profileData?._id && <ProfilePost post={post} key={index} />,
+          )
+        )}
+      </div>
     </div>
   );
 };

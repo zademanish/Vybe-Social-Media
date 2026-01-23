@@ -1,20 +1,19 @@
-import React, { useRef, useState } from "react";
-import { FiPlusSquare } from "react-icons/fi";
-import { MdOutlineKeyboardBackspace } from "react-icons/md";
-import { IoClose } from "react-icons/io5"; 
-import { useNavigate } from "react-router-dom";
-import VideoPlayer from "../components/VideoPlayer";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { setPostData } from "../redux/slices/postSlice";
-import { setCurrentUserStory } from "../redux/slices/storySlice";
-import { setLoopData } from "../redux/slices/loopSlice";
-import { ClipLoader } from "react-spinners";
-import { motion } from "framer-motion";
+import React, { useRef, useState } from 'react';
+import { FiPlusSquare } from 'react-icons/fi';
+import { MdOutlineKeyboardBackspace } from 'react-icons/md';
+import { IoClose } from 'react-icons/io5';
+import { useNavigate } from 'react-router-dom';
+import VideoPlayer from '../components/VideoPlayer';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPostData } from '../redux/slices/postSlice';
+import { setCurrentUserStory } from '../redux/slices/storySlice';
+import { setLoopData } from '../redux/slices/loopSlice';
+import { ClipLoader } from 'react-spinners';
 
 const Upload = () => {
   const navigate = useNavigate();
-  const [uploadType, setUploadType] = useState("post");
+  const [uploadType, setUploadType] = useState('post');
   const [frontendMedia, setFrontendMedia] = useState(null);
   const [backendMedia, setBackendMedia] = useState(null);
   const mediaInput = useRef();
@@ -24,14 +23,14 @@ const Upload = () => {
   const { loopData } = useSelector((state) => state.loop);
 
   const [loading, setLoading] = useState(false);
-  const [mediaType, setMediaType] = useState("");
-  const [caption, setCaption] = useState("");
+  const [mediaType, setMediaType] = useState('');
+  const [caption, setCaption] = useState('');
 
   const handleMedia = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    if (file.type.includes("image")) setMediaType("image");
-    else setMediaType("video");
+    if (file.type.includes('image')) setMediaType('image');
+    else setMediaType('video');
 
     setBackendMedia(file);
     setFrontendMedia(URL.createObjectURL(file));
@@ -40,28 +39,28 @@ const Upload = () => {
   const removeMedia = () => {
     setFrontendMedia(null);
     setBackendMedia(null);
-    setCaption("");
-    setMediaType("");
-    if (mediaInput.current) mediaInput.current.value = "";
+    setCaption('');
+    setMediaType('');
+    if (mediaInput.current) mediaInput.current.value = '';
   };
 
   const uploadPost = async () => {
     setLoading(true);
     try {
       const formData = new FormData();
-      formData.append("caption", caption);
-      formData.append("mediaType", mediaType);
-      formData.append("media", backendMedia);
+      formData.append('caption', caption);
+      formData.append('mediaType', mediaType);
+      formData.append('media', backendMedia);
 
       const result = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/api/post/upload`,
         formData,
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       dispatch(setPostData([...postData, result.data]));
       setLoading(false);
-      navigate("/");
+      navigate('/');
     } catch (error) {
       setLoading(false);
       console.log(error);
@@ -72,17 +71,17 @@ const Upload = () => {
     setLoading(true);
     try {
       const formData = new FormData();
-      formData.append("mediaType", mediaType);
-      formData.append("media", backendMedia);
+      formData.append('mediaType', mediaType);
+      formData.append('media', backendMedia);
 
       const result = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/api/story/upload`,
         formData,
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       dispatch(setCurrentUserStory(result.data));
-      navigate("/");
+      navigate('/');
     } catch (error) {
       setLoading(false);
       console.log(error);
@@ -93,17 +92,17 @@ const Upload = () => {
     setLoading(true);
     try {
       const formData = new FormData();
-      formData.append("caption", caption);
-      formData.append("media", backendMedia);
+      formData.append('caption', caption);
+      formData.append('media', backendMedia);
 
       const result = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/api/loop/upload`,
         formData,
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       dispatch(setLoopData([...loopData, result.data]));
-      navigate("/");
+      navigate('/');
     } catch (error) {
       setLoading(false);
       console.log(error);
@@ -111,8 +110,8 @@ const Upload = () => {
   };
 
   const handleUpload = () => {
-    if (uploadType === "post") uploadPost();
-    else if (uploadType === "story") uploadStory();
+    if (uploadType === 'post') uploadPost();
+    else if (uploadType === 'story') uploadStory();
     else uploadLoop();
   };
 
@@ -121,25 +120,21 @@ const Upload = () => {
       {/* Header */}
       <div className="w-full h-[70px] flex items-center gap-4 px-5 backdrop-blur-md bg-white/70 border-b border-gray-200 shadow-sm">
         <MdOutlineKeyboardBackspace
-          onClick={() => navigate("/")}
+          onClick={() => navigate('/')}
           className="text-gray-700 w-7 h-7 cursor-pointer hover:scale-110 transition"
         />
-        <h1 className="text-gray-900 text-lg font-semibold tracking-wide">
-          Upload Media
-        </h1>
+        <h1 className="text-gray-900 text-lg font-semibold tracking-wide">Upload Media</h1>
       </div>
 
       {/* Toggle Buttons */}
       <div className="w-[90%] max-w-[600px] h-[55px] bg-gray-100 backdrop-blur-md rounded-full flex justify-around items-center gap-3 mt-5 border border-gray-300 shadow-inner">
-        {["post", "story", "loop"].map((type) => (
+        {['post', 'story', 'loop'].map((type) => (
           <motion.div
             key={type}
             whileTap={{ scale: 0.95 }}
             onClick={() => setUploadType(type)}
             className={`${
-              uploadType === type
-                ? "bg-black text-white font-bold shadow-md"
-                : "text-gray-600"
+              uploadType === type ? 'bg-black text-white font-bold shadow-md' : 'text-gray-600'
             } w-[30%] h-[75%] flex justify-center items-center text-base rounded-full cursor-pointer transition`}
           >
             {type.charAt(0).toUpperCase() + type.slice(1)}
@@ -156,15 +151,13 @@ const Upload = () => {
         >
           <input
             type="file"
-            accept={uploadType === "loop" ? "video/*" : "image/*,video/*"}
+            accept={uploadType === 'loop' ? 'video/*' : 'image/*,video/*'}
             hidden
             ref={mediaInput}
             onChange={handleMedia}
           />
           <FiPlusSquare className="text-white w-10 h-10" />
-          <div className="text-white text-lg font-medium">
-            Click or drag to upload {uploadType}
-          </div>
+          <div className="text-white text-lg font-medium">Click or drag to upload {uploadType}</div>
         </motion.div>
       )}
 
@@ -179,7 +172,7 @@ const Upload = () => {
             <IoClose size={20} className="sm:w-5 sm:h-5" />
           </button>
 
-          {mediaType === "image" && (
+          {mediaType === 'image' && (
             <img
               src={frontendMedia}
               alt="preview"
@@ -187,13 +180,13 @@ const Upload = () => {
             />
           )}
 
-          {mediaType === "video" && (
+          {mediaType === 'video' && (
             <div className="w-full rounded-2xl overflow-hidden border border-gray-300 shadow-md relative">
               <VideoPlayer media={frontendMedia} />
             </div>
           )}
 
-          {uploadType !== "story" && (
+          {uploadType !== 'story' && (
             <input
               type="text"
               className="w-full border-b border-gray-400 bg-transparent text-gray-800 px-2 sm:px-3 py-2 outline-none placeholder-gray-500 text-sm sm:text-base mt-2"
@@ -212,11 +205,7 @@ const Upload = () => {
           onClick={handleUpload}
           className="fixed bottom-10 w-[70%] max-w-[400px] h-[50px] bg-blue-500 text-white font-semibold rounded-2xl shadow-lg hover:bg-blue-600 transition"
         >
-          {loading ? (
-            <ClipLoader size={28} color="white" />
-          ) : (
-            `Upload ${uploadType}`
-          )}
+          {loading ? <ClipLoader size={28} color="white" /> : `Upload ${uploadType}`}
         </motion.button>
       )}
     </div>

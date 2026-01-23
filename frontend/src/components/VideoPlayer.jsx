@@ -1,73 +1,63 @@
-import React, { useEffect, useRef, useState } from "react";
-import { FiVolume2, FiVolumeX } from "react-icons/fi";
+import React, { useEffect, useRef, useState } from 'react';
+import { FiVolume2, FiVolumeX } from 'react-icons/fi';
 
 const VideoPlayer = ({ media }) => {
   const videoRef = useRef(null);
   const [mute, setMute] = useState(true);
   const [playing, setPlaying] = useState(false);
 
-  // Handle click to play/pause manually
   const handleClick = () => {
-    if (!videoRef.current) return;
+    const video = videoRef.current;
+    if (!video) return;
 
     if (playing) {
-      videoRef.current.pause();
+      video.pause();
       setPlaying(false);
     } else {
-      videoRef.current.play().catch((err) => {
-        console.log("Play blocked:", err);
-      });
+      video.play().catch(console.log);
       setPlaying(true);
     }
   };
 
   useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        const video = videoRef.current;
-        if (!video) return;
-
         if (entry.isIntersecting) {
-          // Play when in viewport
-          video.play().then(() => setPlaying(true)).catch((err) => {
-            console.log("Autoplay blocked:", err);
-          });
+          video
+            .play()
+            .then(() => setPlaying(true))
+            .catch(console.log);
         } else {
-          // Pause when out of viewport
           video.pause();
           setPlaying(false);
         }
       },
-      { threshold: 0.6 } // video should be 60% visible
+      { threshold: 0.6 },
     );
 
-    if (videoRef.current) observer.observe(videoRef.current);
+    observer.observe(video);
 
     return () => {
-      if (videoRef.current) observer.unobserve(videoRef.current);
+      observer.unobserve(video);
       observer.disconnect();
     };
   }, []);
 
   return (
-    <div className="h-[100vh] w-full relative cursor-pointer max-w-full overflow-hidden">
+    <div className="h-[100vh] w-full relative cursor-pointer overflow-hidden">
       <video
         ref={videoRef}
         src={media}
         loop
         muted={mute}
         onClick={handleClick}
-        className="w-full md:max-h-[100%] object-cover object-center"
+        className="w-full object-cover object-center"
       />
-      <div
-        className="absolute bottom-2 right-2 cursor-pointer"
-        onClick={() => setMute((prev) => !prev)}
-      >
-        {mute ? (
-          <FiVolumeX className="w-5 h-5 text-white" />
-        ) : (
-          <FiVolume2 className="w-5 h-5 text-white" />
-        )}
+      <div className="absolute bottom-2 right-2" onClick={() => setMute((prev) => !prev)}>
+        {mute ? <FiVolumeX /> : <FiVolume2 />}
       </div>
     </div>
   );
